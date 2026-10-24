@@ -36,7 +36,7 @@ jobs:
         env:
           SSH_PRIVATE_KEY_BASE_64: ${{ secrets.SSH_PRIVATE_KEY_BASE_64 }}
           HOST: ${{ secrets.HOST }}
-          PORT: ${{ vars.PORT }}
+          PORT: ${{ secrets.PORT }}
         run: |
           for v in SSH_PRIVATE_KEY_BASE_64 HOST PORT; do
             [ -n "${!v}" ] || { echo "::error::$v ist nicht gesetzt"; exit 1; }
@@ -50,8 +50,8 @@ jobs:
       - name: Dateien auf den Webserver kopieren
         env:
           HOST: ${{ secrets.HOST }}
-          PORT: ${{ vars.PORT }}
-          USER: ${{ vars.USER }}
+          PORT: ${{ secrets.PORT }}
+          USER: ${{ secrets.USER }}
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
         run: |
           rsync -rlptDvz --delete --update \
