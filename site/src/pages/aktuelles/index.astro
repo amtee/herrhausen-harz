@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getNews, germanDate, type NewsEntry } from '../../lib/content';
+
+const news = await getNews();
+---
+
+<BaseLayout title="Aktuelles" description="Meldungen und Berichte aus Herrhausen am Harz.">
+  <article class="page-wrap wide-page">
+    <header class="page-header"><p class="section-kicker">Aus dem Dorf</p><h1>Aktuelles</h1></header>
+    <section class="listing-section">
+      <div class="event-list">
+        {news.map((entry: NewsEntry) => <article class="list-row">
+          <time datetime={entry.data.date.toISOString()}>{germanDate.format(entry.data.date)}</time>
+          <div><h2><a href={`/aktuelles/${entry.id}/`}>{entry.data.title}</a></h2><p>{entry.data.summary}</p></div>
+        </article>)}
+      </div>
+    </section>
+  </article>
+</BaseLayout>

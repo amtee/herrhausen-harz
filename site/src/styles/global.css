@@ -63,7 +63,10 @@ h1 span { color: #f0c6a9; }
 .list-row { display: grid; grid-template-columns: minmax(12rem, 18rem) 1fr; gap: 2rem; padding: 1.5rem 0; border-bottom: 1px solid var(--line); }
 .list-row time { color: var(--red); font-weight: 700; }
 .list-row h3 { font-size: 1.45rem; }
+.list-row h2 { font-size: 1.65rem; }
+.list-row h2 a, .list-row h3 a, .event-card h3 a, .news-card h3 a { text-decoration: none; }
 .list-row p { margin: .45rem 0 0; color: var(--muted); }
+.lead { color: var(--muted); font-size: 1.35rem; }
 .muted { font-size: .95rem; }
 .archive { opacity: .78; }
 @media (max-width: 45rem) { .header-inner { align-items: flex-start; flex-direction: column; padding: 1.2rem 0; } nav { gap: .8rem 1rem; } .hero, .hero-image { min-height: 31rem; height: 31rem; } .hero-copy { padding: 2rem 1.5rem; } .welcome-grid, .event-grid, .news-grid { grid-template-columns: 1fr; gap: 1.5rem; } .section-wrap { padding-top: 3.5rem; padding-bottom: 3.5rem; } .section-heading { align-items: flex-start; flex-direction: column; } .footer-inner { flex-direction: column; } }

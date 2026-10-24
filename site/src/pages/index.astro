@@ -33,15 +33,15 @@ const { upcoming: events } = await getEvents(new Date('2026-10-24'));
     <div class="section-wrap">
       <div class="section-heading"><div><p class="section-kicker">Was kommt</p><h2>Veranstaltungen</h2></div><a href="/veranstaltungen/">Alle Veranstaltungen →</a></div>
       <div class="event-grid">
-        {events.map((event: CollectionEntry<'events'>) => <article class="event-card"><time>{germanDate.format(event.data.date)}</time><h3>{event.data.title}</h3>{event.data.location && <p>{event.data.location}</p>}</article>)}
+        {events.map((event: CollectionEntry<'events'>) => <article class="event-card"><time datetime={event.data.date.toISOString()}>{germanDate.format(event.data.date)}</time><h3><a href={`/veranstaltungen/${event.id}/`}>{event.data.title}</a></h3>{event.data.location && <p>{event.data.location}</p>}</article>)}
       </div>
     </div>
   </section>
 
   <section class="news section-wrap">
-    <div class="section-heading"><div><p class="section-kicker">Aus dem Dorf</p><h2>Aktuelles</h2></div><a href="/veranstaltungen/">Mehr Meldungen →</a></div>
+    <div class="section-heading"><div><p class="section-kicker">Aus dem Dorf</p><h2>Aktuelles</h2></div><a href="/aktuelles/">Mehr Meldungen →</a></div>
     <div class="news-grid">
-      {news.map((entry: CollectionEntry<'news'>) => <article class="news-card"><time>{germanDate.format(entry.data.date)}</time><h3>{entry.data.title}</h3><p>{entry.data.summary}</p></article>)}
+      {news.map((entry: CollectionEntry<'news'>) => <article class="news-card"><time datetime={entry.data.date.toISOString()}>{germanDate.format(entry.data.date)}</time><h3><a href={`/aktuelles/${entry.id}/`}>{entry.data.title}</a></h3><p>{entry.data.summary}</p></article>)}
     </div>
   </section>
 

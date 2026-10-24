@@ -11,9 +11,9 @@ const { upcoming, past } = await getEvents(new Date('2026-10-24'));
     <section class="listing-section">
       <h2>Kommende Termine</h2>
       <div class="event-list">
-        {upcoming.map((event: EventEntry) => <article class="list-row"><time>{germanDate.format(event.data.date)}</time><div><h3>{event.data.title}</h3><p>{event.data.summary}</p>{event.data.location && <p class="muted">{event.data.location}</p>}</div></article>)}
+        {upcoming.map((event: EventEntry) => <article class="list-row"><time datetime={event.data.date.toISOString()}>{germanDate.format(event.data.date)}</time><div><h3><a href={`/veranstaltungen/${event.id}/`}>{event.data.title}</a></h3><p>{event.data.summary}</p>{event.data.location && <p class="muted">{event.data.location}</p>}</div></article>)}
       </div>
     </section>
-    <section class="listing-section archive"><h2>Archiv</h2><div class="event-list">{past.map((event: EventEntry) => <article class="list-row"><time>{germanDate.format(event.data.date)}</time><div><h3>{event.data.title}</h3><p>{event.data.summary}</p></div></article>)}</div></section>
+    <section class="listing-section archive"><h2>Archiv</h2><div class="event-list">{past.map((event: EventEntry) => <article class="list-row"><time datetime={event.data.date.toISOString()}>{germanDate.format(event.data.date)}</time><div><h3><a href={`/veranstaltungen/${event.id}/`}>{event.data.title}</a></h3><p>{event.data.summary}</p></div></article>)}</div></section>
   </article>
 </BaseLayout>
