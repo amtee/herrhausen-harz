@@ -1,0 +1,19 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import type { PageEntry } from '../lib/content';
+
+interface Props { page: PageEntry }
+const { page } = Astro.props;
+const { Content } = await render(page);
+---
+
+<BaseLayout title={page.data.title} description={page.data.summary}>
+  <article class="page-wrap">
+    <header class="page-header">
+      <p class="section-kicker">Herrhausen am Harz</p>
+      <h1>{page.data.title}</h1>
+    </header>
+    <div class="page-content prose"><Content /></div>
+  </article>
+</BaseLayout>

@@ -1,0 +1,49 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { germanDate, getEvents, getHomePage, getNews } from '../lib/content';
+import type { CollectionEntry } from 'astro:content';
+
+const page = await getHomePage();
+const { Content } = await render(page);
+const news = await getNews(3);
+const { upcoming: events } = await getEvents(new Date('2026-10-24'));
+---
+
+<BaseLayout title={page.data.title} description={page.data.summary}>
+  <section class="hero">
+    <img class="hero-image" src="/images/willkommen.jpg" alt="Herzlich willkommen in Herrhausen" />
+    <div class="hero-copy">
+      <p class="eyebrow">Stadtteil von Seesen</p>
+      <h1>Herrhausen<br /><span>am Harz</span></h1>
+      <p class="hero-lead">Willkommen in unserem Dorf zwischen Harz und Nettequelle.</p>
+      <a class="button" href="/unser-dorf/">Unser Dorf entdecken</a>
+    </div>
+  </section>
+
+  <section class="welcome section-wrap">
+    <div class="section-kicker">Schön, dass Sie da sind</div>
+    <div class="welcome-grid">
+      <div class="prose"><Content /></div>
+      <img src="/images/nettequelle.jpg" alt="Die Nettequelle bei Herrhausen" loading="lazy" />
+    </div>
+  </section>
+
+  <section class="events-band">
+    <div class="section-wrap">
+      <div class="section-heading"><div><p class="section-kicker">Was kommt</p><h2>Veranstaltungen</h2></div><a href="/veranstaltungen/">Alle Veranstaltungen →</a></div>
+      <div class="event-grid">
+        {events.map((event: CollectionEntry<'events'>) => <article class="event-card"><time>{germanDate.format(event.data.date)}</time><h3>{event.data.title}</h3>{event.data.location && <p>{event.data.location}</p>}</article>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="news section-wrap">
+    <div class="section-heading"><div><p class="section-kicker">Aus dem Dorf</p><h2>Aktuelles</h2></div><a href="/veranstaltungen/">Mehr Meldungen →</a></div>
+    <div class="news-grid">
+      {news.map((entry: CollectionEntry<'news'>) => <article class="news-card"><time>{germanDate.format(entry.data.date)}</time><h3>{entry.data.title}</h3><p>{entry.data.summary}</p></article>)}
+    </div>
+  </section>
+
+  <section class="closing-image"><img src="/images/feldmark.jpg" alt="Herrhausen aus der Feldmark" loading="lazy" /><div><p class="section-kicker">Unser Ort</p><h2>Herrhausen kennenlernen</h2><a class="button button-light" href="/lage/">Lage und Anreise</a></div></section>
+</BaseLayout>

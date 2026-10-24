@@ -1,0 +1,14 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '../layouts/PageLayout.astro';
+import type { PageEntry } from '../lib/content';
+
+export async function getStaticPaths() {
+  const pages = await getCollection('pages');
+  return pages.filter((page: PageEntry) => page.data.path !== '/').map((page: PageEntry) => ({ params: { slug: page.data.path.replace(/^\//, '').replace(/\/$/, '') }, props: { page } }));
+}
+
+const { page } = Astro.props;
+---
+
+<PageLayout page={page} />

@@ -1,0 +1,45 @@
+---
+import '../styles/global.css';
+import { getNavPages, type PageEntry } from '../lib/content';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const navPages = await getNavPages();
+const currentPath = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{title}, Herrhausen am Harz</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex, follow" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Zum Inhalt springen</a>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="/">
+          <img src="/images/logo-seesen.png" alt="Stadt Seesen" />
+          <span>Herrhausen <em>am Harz</em></span>
+        </a>
+        <nav aria-label="Hauptnavigation">
+          {navPages.map((page: PageEntry) => <a href={page.data.path} aria-current={currentPath === page.data.path ? 'page' : undefined}>{page.data.navLabel ?? page.data.title}</a>)}
+        </nav>
+      </div>
+    </header>
+    <main id="main"><slot /></main>
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <span>© 2026 Herrhausen am Harz</span>
+        <span class="footer-links"><a href="/impressum/">Impressum</a><a href="/datenschutz/">Datenschutz</a></span>
+      </div>
+    </footer>
+  </body>
+</html>

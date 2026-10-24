@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getEvents, germanDate, type EventEntry } from '../../lib/content';
+
+const { upcoming, past } = await getEvents(new Date('2026-10-24'));
+---
+
+<BaseLayout title="Veranstaltungen" description="Termine und Veranstaltungen in Herrhausen am Harz.">
+  <article class="page-wrap wide-page">
+    <header class="page-header"><p class="section-kicker">Im Dorf</p><h1>Veranstaltungen</h1></header>
+    <section class="listing-section">
+      <h2>Kommende Termine</h2>
+      <div class="event-list">
+        {upcoming.map((event: EventEntry) => <article class="list-row"><time>{germanDate.format(event.data.date)}</time><div><h3>{event.data.title}</h3><p>{event.data.summary}</p>{event.data.location && <p class="muted">{event.data.location}</p>}</div></article>)}
+      </div>
+    </section>
+    <section class="listing-section archive"><h2>Archiv</h2><div class="event-list">{past.map((event: EventEntry) => <article class="list-row"><time>{germanDate.format(event.data.date)}</time><div><h3>{event.data.title}</h3><p>{event.data.summary}</p></div></article>)}</div></section>
+  </article>
+</BaseLayout>

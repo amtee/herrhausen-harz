@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://herrhausen-harz.de/sitemap-index.xml

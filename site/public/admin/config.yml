@@ -1,0 +1,48 @@
+backend:
+  name: github
+  repo: herrhausen-harz/website
+  branch: main
+  base_url: https://auth.tams.one
+  auth_endpoint: auth.php
+
+media_folder: site/public/images
+public_folder: /images
+locale: de
+
+collections:
+  - name: pages
+    label: Seiten
+    folder: site/src/content/pages
+    create: true
+    format: frontmatter
+    fields:
+      - { name: title, label: Titel, widget: string }
+      - { name: path, label: Pfad, widget: string, hint: Beginnt und endet mit einem Schrägstrich. }
+      - { name: summary, label: Kurzbeschreibung, widget: text }
+      - { name: navLabel, label: Navigationsname, widget: string, required: false }
+      - { name: order, label: Reihenfolge, widget: number, default: 99 }
+      - { name: showInNav, label: In Hauptnavigation anzeigen, widget: boolean, default: false }
+      - { name: body, label: Text, widget: markdown }
+  - name: news
+    label: Aktuelles
+    folder: site/src/content/news
+    create: true
+    format: frontmatter
+    fields:
+      - { name: title, label: Titel, widget: string }
+      - { name: date, label: Datum, widget: date, format: YYYY-MM-DD }
+      - { name: summary, label: Kurzfassung, widget: text }
+      - { name: draft, label: Entwurf, widget: boolean, default: false, required: false }
+      - { name: body, label: Text, widget: markdown }
+  - name: events
+    label: Veranstaltungen
+    folder: site/src/content/events
+    create: true
+    format: frontmatter
+    fields:
+      - { name: title, label: Titel, widget: string }
+      - { name: date, label: Datum, widget: date, format: YYYY-MM-DD }
+      - { name: location, label: Ort, widget: string, required: false }
+      - { name: summary, label: Kurzfassung, widget: text }
+      - { name: draft, label: Entwurf, widget: boolean, default: false, required: false }
+      - { name: body, label: Text, widget: markdown }

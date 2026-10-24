@@ -1,0 +1,71 @@
+/* Gestaltungsidee: Dorfplatz. Warme Sandtöne bilden den ruhigen Platz, ein
+   dunkles Grün erinnert an Harz und Feldmark, Rot markiert Begegnungen. */
+:root { --sand: #f2eadb; --paper: #fffdf8; --forest: #244b3b; --red: #b34c3b; --ink: #24312c; --muted: #66736c; --line: #d8cdbb; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; color: var(--ink); background: var(--paper); font: 1.08rem/1.6 Georgia, serif; }
+a { color: inherit; text-decoration-thickness: .08em; text-underline-offset: .2em; }
+a:hover { color: var(--red); }
+.skip-link { position: absolute; left: -999px; padding: .6rem 1rem; background: var(--paper); }
+.skip-link:focus { left: 1rem; top: 1rem; z-index: 2; }
+.site-header { background: var(--sand); border-bottom: 1px solid var(--line); }
+.header-inner, .section-wrap, .footer-inner { width: min(100% - 3rem, 72rem); margin: auto; }
+.header-inner { display: flex; align-items: center; justify-content: space-between; min-height: 5.5rem; gap: 2rem; }
+.brand { display: flex; align-items: center; gap: .7rem; text-decoration: none; color: var(--forest); font: 700 1.35rem/1.05 Georgia, serif; }
+.brand img { width: 2.5rem; height: 2.7rem; object-fit: contain; }
+.brand em { display: block; font-size: .82em; font-weight: 400; }
+nav { display: flex; flex-wrap: wrap; gap: 1.5rem; font: 700 .86rem/1 'Arial Narrow', Arial, sans-serif; text-transform: uppercase; letter-spacing: .08em; }
+.hero { min-height: 33rem; position: relative; background: var(--forest); color: white; overflow: hidden; }
+.hero-image { width: 100%; height: 33rem; object-fit: cover; opacity: .72; }
+.hero-copy { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 3rem max(1.5rem, calc((100% - 72rem) / 2)); background: linear-gradient(90deg, rgba(21,49,38,.82), rgba(21,49,38,.12) 75%); }
+.eyebrow, .section-kicker { margin: 0 0 .7rem; color: var(--red); font: 700 .8rem/1.2 'Arial Narrow', Arial, sans-serif; letter-spacing: .14em; text-transform: uppercase; }
+.hero .eyebrow { color: #f2c0ad; }
+h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.08; }
+h1 { font-size: clamp(3.5rem, 10vw, 7.5rem); letter-spacing: -.05em; }
+h1 span { color: #f0c6a9; }
+.hero-lead { max-width: 28rem; font-size: 1.35rem; }
+.button { display: inline-block; padding: .7rem 1.1rem; background: var(--red); color: white; text-decoration: none; font: 700 .82rem/1 'Arial Narrow', Arial, sans-serif; letter-spacing: .08em; text-transform: uppercase; }
+.button:hover { background: #913b2e; color: white; }
+.section-wrap { padding-top: 5rem; padding-bottom: 5rem; }
+.welcome-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+.welcome-grid img { width: 100%; aspect-ratio: 3 / 1; object-fit: cover; }
+.prose { max-width: 38rem; font-size: 1.3rem; }
+.prose p { margin-top: 0; }
+.events-band { background: var(--sand); }
+.section-heading { display: flex; justify-content: space-between; align-items: end; gap: 1rem; margin-bottom: 2rem; }
+.section-heading h2 { color: var(--forest); font-size: clamp(2rem, 4vw, 3rem); }
+.section-heading > a { font-weight: 700; color: var(--red); }
+.event-grid, .news-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+.event-card, .news-card { padding: 1.5rem; background: var(--paper); border-top: 4px solid var(--red); }
+.event-card time, .news-card time { color: var(--red); font: 700 .8rem/1.2 'Arial Narrow', Arial, sans-serif; text-transform: uppercase; letter-spacing: .08em; }
+.event-card h3, .news-card h3 { margin-top: .8rem; font-size: 1.35rem; }
+.event-card p, .news-card p { margin-bottom: 0; color: var(--muted); }
+.closing-image { position: relative; min-height: 23rem; color: white; background: var(--forest); }
+.closing-image img { width: 100%; height: 23rem; object-fit: cover; opacity: .6; }
+.closing-image > div { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+.closing-image h2 { margin-bottom: 1.5rem; font-size: clamp(2rem, 5vw, 3.5rem); }
+.button-light { background: white; color: var(--forest); }
+.site-footer { background: var(--forest); color: #edf0e6; padding: 1.5rem 0; font-size: .9rem; }
+.footer-inner { display: flex; justify-content: space-between; gap: 1rem; }
+.footer-inner a { color: inherit; }
+.footer-links { display: flex; gap: 1.25rem; }
+.page-wrap { width: min(100% - 3rem, 72rem); margin: auto; padding: 5rem 0 6rem; }
+.wide-page { max-width: 78rem; }
+.page-header { border-bottom: 1px solid var(--line); margin-bottom: 3rem; padding-bottom: 1.5rem; }
+.page-header h1 { color: var(--forest); font-size: clamp(2.8rem, 7vw, 5.5rem); }
+.page-content { max-width: 52rem; font-size: 1.2rem; }
+.prose h2, .prose h3 { color: var(--forest); margin: 2.25rem 0 .75rem; }
+.prose p { margin: 0 0 1.2rem; }
+.prose ul { padding-left: 1.3rem; }
+.listing-section { margin-top: 3rem; }
+.listing-section h2 { color: var(--forest); border-bottom: 2px solid var(--forest); padding-bottom: .7rem; }
+.event-list { border-top: 1px solid var(--line); }
+.list-row { display: grid; grid-template-columns: minmax(12rem, 18rem) 1fr; gap: 2rem; padding: 1.5rem 0; border-bottom: 1px solid var(--line); }
+.list-row time { color: var(--red); font-weight: 700; }
+.list-row h3 { font-size: 1.45rem; }
+.list-row p { margin: .45rem 0 0; color: var(--muted); }
+.muted { font-size: .95rem; }
+.archive { opacity: .78; }
+@media (max-width: 45rem) { .header-inner { align-items: flex-start; flex-direction: column; padding: 1.2rem 0; } nav { gap: .8rem 1rem; } .hero, .hero-image { min-height: 31rem; height: 31rem; } .hero-copy { padding: 2rem 1.5rem; } .welcome-grid, .event-grid, .news-grid { grid-template-columns: 1fr; gap: 1.5rem; } .section-wrap { padding-top: 3.5rem; padding-bottom: 3.5rem; } .section-heading { align-items: flex-start; flex-direction: column; } .footer-inner { flex-direction: column; } }
+@media (max-width: 45rem) { .page-wrap { width: min(100% - 2rem, 72rem); padding-top: 3.5rem; } .list-row { grid-template-columns: 1fr; gap: .4rem; } .footer-links { gap: 1rem; } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
