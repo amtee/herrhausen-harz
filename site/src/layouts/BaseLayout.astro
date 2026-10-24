@@ -1,6 +1,9 @@
 ---
 import '../styles/global.css';
-import { getNavPages, type PageEntry } from '../lib/content';
+import { getNavPages, getPages, type PageEntry } from '../lib/content';
+
+type ChildLink = { label: string; path: string };
+type NavLink = ChildLink & { children?: ChildLink[] };
 
 interface Props {
   title: string;
@@ -9,8 +12,16 @@ interface Props {
 
 const { title, description } = Astro.props;
 const navPages = await getNavPages();
-const navLinks = [
-  ...navPages.map((page: PageEntry) => ({ label: page.data.navLabel ?? page.data.title, path: page.data.path })),
+const allContentPages: PageEntry[] = await getPages();
+const navLinks: NavLink[] = [
+  ...navPages.map((page: PageEntry) => ({
+    label: page.data.navLabel ?? page.data.title,
+    path: page.data.path,
+    children: allContentPages
+      .filter((child: PageEntry) => child.data.path.startsWith(page.data.path) && child.data.path !== page.data.path)
+      .sort((a: PageEntry, b: PageEntry) => a.data.path.localeCompare(b.data.path, 'de'))
+      .map((child: PageEntry) => ({ label: child.data.navLabel ?? child.data.title, path: child.data.path })),
+  })),
   { label: 'Aktuelles', path: '/aktuelles/' },
   { label: 'Veranstaltungen', path: '/veranstaltungen/' },
 ];
@@ -25,6 +36,9 @@ const currentPath = Astro.url.pathname;
     <title>{title}, Herrhausen am Harz</title>
     <meta name="description" content={description} />
     <meta name="robots" content="noindex, follow" />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site ?? Astro.url)} />
+    <script defer src="https://umami.tams.one/script.js" data-website-id="7d6fbf09-4734-40d1-b329-f3ed300c1e4a"></script>
+    <script defer src="https://umami.tams.one/recorder.js" data-website-id="7d6fbf09-4734-40d1-b329-f3ed300c1e4a" data-sample-rate="0.15" data-mask-level="moderate" data-max-duration="300000"></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Zum Inhalt springen</a>
@@ -34,8 +48,28 @@ const currentPath = Astro.url.pathname;
           <img src="/images/logo-seesen.png" alt="Stadt Seesen" />
           <span>Herrhausen <em>am Harz</em></span>
         </a>
-        <nav aria-label="Hauptnavigation">
-          {navLinks.map((link) => <a href={link.path} aria-current={currentPath === link.path ? 'page' : undefined}>{link.label}</a>)}
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-navigation">
+          <span class="menu-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+          <span class="menu-label">Menü</span>
+        </button>
+        <nav id="site-navigation" class="site-nav" aria-label="Hauptnavigation">
+          <ul>
+            {navLinks.map((link) => <li
+              class:list={[
+                "nav-item",
+                { "has-children": 'children' in link && link.children?.length },
+              ]}>
+              {'children' in link && link.children?.length ? <>
+                <button class="nav-trigger" type="button" aria-expanded="false" aria-current={currentPath.startsWith(link.path) ? 'page' : undefined} aria-controls={`submenu-${link.path.slice(1).replaceAll('/', '-') || 'start'}`}>
+                  {link.label}<span aria-hidden="true">⌄</span>
+                </button>
+                <ul id={`submenu-${link.path.slice(1).replaceAll('/', '-') || 'start'}`} class="flyout">
+                  <li><a href={link.path} aria-current={currentPath === link.path ? 'page' : undefined}>{link.label} – Überblick</a></li>
+                  {link.children.map((child) => <li><a href={child.path} aria-current={currentPath === child.path ? 'page' : undefined}>{child.label}</a></li>)}
+                </ul>
+              </> : <a href={link.path} aria-current={currentPath === link.path ? 'page' : undefined}>{link.label}</a>}
+            </li>)}
+          </ul>
         </nav>
       </div>
     </header>
@@ -46,5 +80,34 @@ const currentPath = Astro.url.pathname;
         <span class="footer-links"><a href="/impressum/">Impressum</a><a href="/datenschutz/">Datenschutz</a></span>
       </div>
     </footer>
+    <script>
+      const root = document.documentElement;
+      root.dataset.js = 'true';
+      const menuToggle = document.querySelector('.menu-toggle') as HTMLButtonElement | null;
+      const navigation = document.querySelector('#site-navigation');
+      const closeMenus = () => document.querySelectorAll('.nav-trigger[aria-expanded="true"]').forEach((trigger) => {
+        trigger.setAttribute('aria-expanded', 'false');
+      });
+      menuToggle?.addEventListener('click', () => {
+        const open = menuToggle.getAttribute('aria-expanded') === 'true';
+        menuToggle.setAttribute('aria-expanded', String(!open));
+        navigation?.classList.toggle('is-open', !open);
+      });
+      document.querySelectorAll('.nav-trigger').forEach((trigger) => {
+        trigger.addEventListener('click', () => {
+          const open = trigger.getAttribute('aria-expanded') === 'true';
+          closeMenus();
+          trigger.setAttribute('aria-expanded', String(!open));
+        });
+      });
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          closeMenus();
+          menuToggle?.setAttribute('aria-expanded', 'false');
+          navigation?.classList.remove('is-open');
+          menuToggle?.focus();
+        }
+      });
+    </script>
   </body>
 </html>

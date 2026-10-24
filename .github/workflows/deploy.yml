@@ -11,30 +11,32 @@ concurrency:
   group: deploy
   cancel-in-progress: true
 
+defaults:
+  run:
+    working-directory: site
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     environment: production
-    defaults:
-      run:
-        working-directory: site
     steps:
       - uses: actions/checkout@v5
 
       - uses: actions/setup-node@v5
         with:
-          node-version: 24
+          node-version: 22
           cache: npm
           cache-dependency-path: site/package-lock.json
 
       - run: npm ci
+
       - run: npm run build
 
       - name: SSH-Key einrichten
         env:
           SSH_PRIVATE_KEY_BASE_64: ${{ secrets.SSH_PRIVATE_KEY_BASE_64 }}
           HOST: ${{ secrets.HOST }}
-          PORT: ${{ secrets.PORT }}
+          PORT: ${{ vars.PORT }}
         run: |
           for v in SSH_PRIVATE_KEY_BASE_64 HOST PORT; do
             [ -n "${!v}" ] || { echo "::error::$v ist nicht gesetzt"; exit 1; }
@@ -48,13 +50,10 @@ jobs:
       - name: Dateien auf den Webserver kopieren
         env:
           HOST: ${{ secrets.HOST }}
-          PORT: ${{ secrets.PORT }}
-          USER: ${{ secrets.USER }}
-          DEPLOY_PATH: ${{ vars.DEPLOY_PATH }}
+          PORT: ${{ vars.PORT }}
+          USER: ${{ vars.USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
         run: |
-          for v in HOST PORT USER DEPLOY_PATH; do
-            [ -n "${!v}" ] || { echo "::error::$v ist nicht gesetzt"; exit 1; }
-          done
           rsync -rlptDvz --delete --update \
             -e "ssh -i ~/.ssh/deploy_key -p $PORT -o StrictHostKeyChecking=yes" \
             dist/ "$USER@$HOST:$DEPLOY_PATH/"
