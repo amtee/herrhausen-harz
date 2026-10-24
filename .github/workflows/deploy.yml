@@ -52,7 +52,7 @@ jobs:
           HOST: ${{ secrets.HOST }}
           PORT: ${{ secrets.PORT }}
           USER: ${{ secrets.USER }}
-          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+          DEPLOY_PATH: ${{ vars.DEPLOY_PATH }}
         run: |
           rsync -rlptDvz --delete --update \
             -e "ssh -i ~/.ssh/deploy_key -p $PORT -o StrictHostKeyChecking=yes" \

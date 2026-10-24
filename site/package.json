@@ -9,7 +9,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "check": "astro check",
-    "deploy": "npm run build && rsync -rlptDvz --delete --update -e \"ssh -i ${DEPLOY_SSH_KEY:-$HOME/.ssh/deploy-herrhausen-harz} -p ${DEPLOY_PORT:-22}\" dist/ \"$DEPLOY_TARGET/\"",
+    "deploy": "npm run build && rsync -rlptDvz --delete --update -e \"${DEPLOY_SSH:-ssh -i $HOME/.ssh/deploy-herrhausen-harz -p 22}\" dist/ \"$DEPLOY_TARGET/\"",
     "astro": "astro"
   },
   "dependencies": {
