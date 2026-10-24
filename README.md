@@ -6,7 +6,7 @@ Die Website von Herrhausen am Harz ist eine statische Seite. Texte, Meldungen un
 | :-- | :-- |
 | 1 Harvest und Inhaltsmodell | erledigt (24. Oktober 2026, Preview-Tiefe) |
 | 2 Aufbau der Website | abgeschlossen, alle Inventarbereiche als Preview angelegt |
-| 3 Veröffentlichung | Deploy-Pipeline vorbereitet; Server, DNS und Repository offen |
+| 3 Veröffentlichung | live (24. Oktober 2026, `herrhausen-harz.tams.one`) |
 
 ## Ordner
 
@@ -52,6 +52,6 @@ npm run check
 npm run build
 ```
 
-Für die technische Veröffentlichung wird `clients/herrhausen-harz` als GitHub-Repository benötigt. Nach Einrichtung des Webservers veröffentlicht jeder Push auf `main` den erfolgreichen Build über [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml). Die nötigen SSH-Zugangsdaten und der Zielpfad werden erst nach Bestätigung des Hostingziels eingerichtet.
+Das GitHub-Repository liegt unter [amtee/herrhausen-harz](https://github.com/amtee/herrhausen-harz). Die Website ist unter [herrhausen-harz.tams.one](https://herrhausen-harz.tams.one) erreichbar; jeder Push auf `main` veröffentlicht einen erfolgreichen Build über [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml). Der eigene Domainname des Ortsteils kann später durch Marcel umgeschaltet werden.
 
 Vor dem Livegang müssen die offenen Punkte in [`intake.md`](intake.md) und [`docs/platzhalter.md`](docs/platzhalter.md) geklärt werden. Die Rohdaten bleiben unter [`harvest/`](harvest/) unangetastet.
