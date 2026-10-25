@@ -47,6 +47,17 @@ jobs:
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -p "$PORT" -H "$HOST" >> ~/.ssh/known_hosts 2>/dev/null
 
+      # Der Pfad muss /home/<user>/<slug>/site sein; rsync --delete darf nie im geteilten Home-Verzeichnis laufen.
+      - name: Zielpfad prüfen
+        env:
+          DEPLOY_PATH: ${{ vars.DEPLOY_PATH }}
+        run: |
+          [ -n "$DEPLOY_PATH" ] || { echo "::error::DEPLOY_PATH ist nicht gesetzt"; exit 1; }
+          case "$DEPLOY_PATH" in
+            *..*|*[[:space:]]*) echo "::error::DEPLOY_PATH enthält ungültige Zeichen"; exit 1 ;;
+          esac
+          [[ "$DEPLOY_PATH" =~ ^/home/[^/]+/[^/]+/site$ ]] || { echo "::error::DEPLOY_PATH muss /home/<user>/<slug>/site sein, ist aber: $DEPLOY_PATH"; exit 1; }
+
       - name: Dateien auf den Webserver kopieren
         env:
           HOST: ${{ secrets.HOST }}
